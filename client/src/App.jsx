@@ -1,53 +1,60 @@
-import React from 'react'
-import { useRoutes, Link } from 'react-router-dom'
-import Locations from './pages/Locations'
-import LocationEvents from './pages/LocationEvents'
-import Events from './pages/Events'
+import { Link, useLocation, useRoutes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import BuildPage from './pages/BuildPage'
+import BikeDetailsPage from './pages/BikeDetailsPage'
+import EditBikePage from './pages/EditBikePage'
 import './App.css'
 
 const App = () => {
-  let element = useRoutes([
+  const location = useLocation()
+
+  const element = useRoutes([
     {
       path: '/',
-      element: <Locations />
+      element: <HomePage />
     },
     {
-      path: '/echolounge',
-      element: <LocationEvents index={1} />
+      path: '/build',
+      element: <BuildPage />
     },
     {
-      path: '/houseofblues',
-      element: <LocationEvents index={2} />
+      path: '/bikes/:bikeId',
+      element: <BikeDetailsPage />
     },
     {
-      path: '/pavilion',
-      element: <LocationEvents index={3} />
-    },
-    {
-      path: '/americanairlines',
-      element: <LocationEvents index={4} />
-    },
-    {
-      path: '/events',
-      element: <Events />
+      path: '/bikes/:bikeId/edit',
+      element: <EditBikePage />
     }
   ])
 
   return (
-    <div className='app'>
+    <div className="app-shell">
+      <div className="ambient ambient-left" aria-hidden="true" />
+      <div className="ambient ambient-right" aria-hidden="true" />
 
-      <header className='main-header'>
-        <h1>UnityGrid Plaza</h1>
+      <header className="topbar">
+        <Link className="brandmark" to="/">
+          <span className="brandmark-kicker">DIY Delight</span>
+          <span className="brandmark-title">Velocraft Garage</span>
+        </Link>
 
-        <div className='header-buttons'>
-          <Link to='/' role='button'>Home</Link>
-          <Link to='/events' role='button'>Events</Link>
-        </div>
+        <nav className="topbar-nav" aria-label="Primary">
+          <Link
+            className={location.pathname === '/' ? 'nav-link nav-link-active' : 'nav-link'}
+            to="/"
+          >
+            Garage
+          </Link>
+          <Link
+            className={location.pathname === '/build' ? 'nav-link nav-link-active' : 'nav-link'}
+            to="/build"
+          >
+            Build a Bike
+          </Link>
+        </nav>
       </header>
 
-      <main>
-        {element}
-      </main>
+      <main className="page-shell">{element}</main>
     </div>
   )
 }
