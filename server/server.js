@@ -2,8 +2,7 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
-
-// import the router from your routes file
+import customItemsRouter from './routes/customItems.js'
 
 
 dotenv.config()
@@ -22,7 +21,7 @@ else if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'))
 }
 
-// specify the api path for the server to use
+app.use('/api/custom-items', customItemsRouter)
 
 
 if (process.env.NODE_ENV === 'production') {
